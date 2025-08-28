@@ -51,9 +51,11 @@ Import via Airflow UI -> Admin -> Variables -> Import Variables.
 
 ### Airflow Connection
 
-Add a Snowflake connection in Airflow UI -> Admin -> Connections.
+Add a Snowflake connection in Airflow UI -> Admin -> Connections.  
+
 Conn ID: `snowflake_default`  
-Type: `Snowflake`
+Type: `Snowflake`  
+
 Set crenentials (account, user, password, warehouse, database, schema).
 
 ### Running Tests
@@ -69,9 +71,10 @@ docker compose exec airflow-webserver pytest -v tests/
 
 ## CI/CD with GitHub Actions
 
-The workflow in `.github/workflows/main.yaml`.
-Runs pytest on every push to main.
-Builds the Docker environment.
+The workflow in `.github/workflows/main.yaml`.  
+Runs pytest on every push to main. 
+Builds the Docker environment.  
+Add secrets in GitHub repo settings for SECRET_GITHUB_TOKEN and AIRFLOW_UID.
 
 ---
 
