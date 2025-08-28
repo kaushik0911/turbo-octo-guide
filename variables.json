@@ -1,0 +1,26 @@
+{
+    "github_repos": {
+        "airflow": "apache/airflow",
+        "dbt": "dbt-labs/dbt-core",
+        "duckdb": "duckdb/duckdb",
+        "great_expectations": "great-expectations/great_expectations",
+        "kafka": "apache/kafka",
+        "pandas": "pandas-dev/pandas",
+        "prefect": "PrefectHQ/prefect",
+        "snowflake_connector": "snowflakedb/snowflake-connector-python",
+        "spark": "apache/spark",
+        "sqlalchemy": "sqlalchemy/sqlalchemy"
+    },
+    "python_packages": [
+        "apache-airflow",
+        "dbt-core",
+        "pyspark",
+        "pandas",
+        "sqlalchemy",
+        "great-expectations",
+        "prefect",
+        "confluent-kafka",
+        "snowflake-connector-python",
+        "duckdb"
+    ]
+}

@@ -32,7 +32,7 @@ def test_load_parquet_to_snowflake_success(mock_hook, monkeypatch):
 
     load_parquet_to_snowflake("github_metrics", task_id="stage_task", ti=ti)
 
-    mock_cursor.execute.assert_any_call("CREATE STAGE IF NOT EXISTS GITHUB_DATA_stage")
+    mock_cursor.execute.assert_any_call("CREATE STAGE IF NOT EXISTS GITHUB_DATA_STAGE")
 
     mock_cursor.close.assert_called_once()
     mock_conn.close.assert_called_once()
