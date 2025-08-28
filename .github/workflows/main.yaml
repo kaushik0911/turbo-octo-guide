@@ -1,0 +1,37 @@
+name: Airflow CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  airflow:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Compose
+        run: |
+          docker compose version
+
+      - name: Build and start containers
+        run: |
+          docker compose -f docker-compose.yml up -d --build
+
+      - name: Wait for Airflow init
+        run: |
+          echo "Waiting for Airflow init..."
+          sleep 30
+
+      - name: Run pytest
+        run: |
+          docker compose exec -T airflow-webserver pytest tests/ --maxfail=1 --disable-warnings -q
+
+      - name: Shutdown containers
+        if: always()
+        run: |
+          docker compose down -v
