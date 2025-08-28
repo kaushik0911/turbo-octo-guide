@@ -207,5 +207,5 @@ marimo/_lsp/
 __marimo__/
 
 Task.pdf
-data/*
+data/*/*
 logs/scheduler/latest

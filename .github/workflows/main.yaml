@@ -18,6 +18,14 @@ jobs:
         run: |
           docker compose version
 
+      - name: Create .env file for CI
+        run: cp .env.example .env
+
+      - name: Create .env file from GitHub secrets
+        run: |
+          echo "GITHUB_TOKEN=${{ secrets.SECRET_GITHUB_TOKEN }}" >> .env
+          echo "AIRFLOW_UID=${{ secrets.AIRFLOW_UID }}" >> .env
+
       - name: Build and start containers
         run: |
           docker compose -f docker-compose.yml up -d --build
