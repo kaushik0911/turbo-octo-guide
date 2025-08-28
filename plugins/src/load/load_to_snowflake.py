@@ -13,7 +13,7 @@ def load_parquet_to_snowflake(table_name, task_id, **context) -> None:
 
         snowflake_table = get_snowflake_table(table_name, task_instance)
 
-        snowflake_stage_name = f"{snowflake_table}_stage"
+        snowflake_stage_name = f"{snowflake_table}_STAGE"
         cursor.execute(f"CREATE STAGE IF NOT EXISTS {snowflake_stage_name}")
 
         # upload parquet file
@@ -27,6 +27,7 @@ def load_parquet_to_snowflake(table_name, task_id, **context) -> None:
         COPY INTO {snowflake_table}
         FROM @{snowflake_stage_name}
         FILE_FORMAT = (TYPE = PARQUET)
+        PURGE = TRUE
         MATCH_BY_COLUMN_NAME=CASE_INSENSITIVE;
         """
         cursor.execute(copy_sql)
