@@ -4,7 +4,8 @@ import json
 from time import sleep
 from datetime import datetime
 from airflow.models import Variable
-from src import RAW_DIR
+from src.collect import RAW_DIR
+
 
 def fetch_pypi_downloads(**context) -> None:
     results = []

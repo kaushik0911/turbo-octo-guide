@@ -3,45 +3,44 @@ from airflow import DAG
 from airflow.operators.python import PythonOperator
 from datetime import datetime
 
-from src.collect.github_collector import fetch_github_metrics
-from src.clean.github_cleaner import github_clean_data
-from src.validate.github_validation import github_validate_and_stage
-from src.load.load_to_snowflake import load_parquet_to_snowflake
+from src.collect.github import fetch_github_metrics
+from src.clean_and_validate.github import clean_and_validate_github_data
+from src.load.to_snowflake import load_parquet_to_snowflake
 
 
 with DAG(
     "github_pipeline",
     start_date=datetime(2025, 1, 1),
     schedule_interval="@daily",
+        # "@once", "@hourly", "@daily", "@weekly", "@monthly", "0 6 * * *" 
+        # from datetime import timedelta
+        # timedelta(hours=6)
+        # schedule_interval=None, You must trigger it manually
     catchup=False,
     tags=["data-engineering-project"],
 ) as dag:
 
-    task_github_data_collect = PythonOperator(
+    task_fetch_github_metrics = PythonOperator(
         task_id="fetch_github_metrics",
         python_callable=fetch_github_metrics,
         provide_context=True
     )
 
-    task_github_cleaned = PythonOperator(
-        task_id="github_clean_data",
-        python_callable=github_clean_data,
+    task_clean_and_validate_github_data = PythonOperator(
+        task_id="clean_and_validate_github_data",
+        python_callable=clean_and_validate_github_data,
         provide_context=True,
     )
 
-    task_github_validate_and_stage = PythonOperator(
-        task_id="github_validate_and_stage",
-        python_callable=github_validate_and_stage,
-        provide_context=True,
-    )
-
-    task_load_to_snowflake = PythonOperator(
-        task_id="load_github_to_snowflake",
+    task_load_parquet_to_snowflake = PythonOperator(
+        task_id="load_parquet_to_snowflake",
         python_callable=load_parquet_to_snowflake,
         op_kwargs={
-            "table_name": "github_metrics",
-            "task_id": "github_validate_and_stage"
+            "source_name": "github",
+            "task_id": "clean_and_validate_github_data"
         }
     )
 
-    task_github_data_collect >> task_github_cleaned >> task_github_validate_and_stage >> task_load_to_snowflake
+    task_fetch_github_metrics >> \
+        task_clean_and_validate_github_data >> \
+            task_load_parquet_to_snowflake

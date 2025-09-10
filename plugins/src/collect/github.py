@@ -3,9 +3,10 @@ import json
 import requests
 from datetime import datetime
 from airflow.models import Variable
-from src import RAW_DIR
+from src.collect import RAW_DIR
 
 GITHUB_TOKEN = os.getenv("GITHUB_TOKEN", "")
+
 
 def fetch_github_metrics(**context) -> None:
     results = []

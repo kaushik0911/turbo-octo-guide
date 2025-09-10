@@ -1,0 +1,7 @@
+{
+  "editor.wordWrap": "on",
+  "files.exclude": {
+    "**/__pycache__": true,
+    ".pytest_cache": true
+  }
+}
