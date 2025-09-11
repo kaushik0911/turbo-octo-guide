@@ -4,7 +4,7 @@ import tempfile
 from unittest.mock import MagicMock
 import pytest
 
-from plugins.src.clean.github_cleaner import github_clean_data
+from plugins.src.clean_and_validate.github import clean_and_validate_github_data
 
 @pytest.fixture
 def sample_raw_data():
@@ -28,9 +28,9 @@ def sample_raw_data():
     ]
 
 
-def test_github_clean_data(sample_raw_data, monkeypatch):
+def test_clean_and_validate_github_data(sample_raw_data, monkeypatch):
     tmp_dir = tempfile.mkdtemp()
-    monkeypatch.setattr("plugins.src.clean.github_cleaner.CLEAN_DIR", tmp_dir)
+    monkeypatch.setattr("plugins.src.clean_and_validate.STAGING_DIR", tmp_dir)
 
     # create fake raw file
     raw_file = os.path.join(tmp_dir, "github_raw.json")
